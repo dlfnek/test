@@ -23,7 +23,7 @@ public class Comment extends Timestamped{
     @Column(nullable = false)
     private String comment;
 
-    @JsonIgnore
+//    @JsonIgnore // 무한루프를 방지해주기 위한 어노테이션
     @ManyToOne
     @JoinColumn(name = "article_idx", nullable = false)
     private Article article;

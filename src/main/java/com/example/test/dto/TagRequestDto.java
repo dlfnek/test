@@ -9,5 +9,5 @@ import lombok.Setter;
 
 public class TagRequestDto {
     private Long idx;
-    private String tagName;
+    private String name;
 }
