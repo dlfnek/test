@@ -8,6 +8,7 @@ import com.example.test.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping("/article")
-    public Article setArticle(@RequestBody ArticleRequestDto articleRequestDto){
+    public Article setArticle(ArticleRequestDto articleRequestDto) throws IOException {
         return articleService.setArticle(articleRequestDto);
     }
 

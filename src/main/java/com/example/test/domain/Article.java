@@ -27,14 +27,18 @@ public class Article extends Timestamped{
     @Column(nullable = false)
     private String content;
 
+    @Column
+    private String imageUrl;
+
     @OneToMany(mappedBy = "article")
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "article")
     private List<Tag> tags;
 
-    public Article(ArticleRequestDto requestDto) {
+    public Article(ArticleRequestDto requestDto, String imageUrl) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
+        this.imageUrl = imageUrl;
     }
 }

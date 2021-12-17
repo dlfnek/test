@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,10 +25,13 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
     private final TagRepository tagRepository;
+    private final AwsService awsService;
 
     @Transactional
-    public Article setArticle(ArticleRequestDto articleRequestDto){
-        Article article = new Article(articleRequestDto);
+    public Article setArticle(ArticleRequestDto articleRequestDto) throws IOException {
+        String url = null;
+        if(articleRequestDto.getImage() != null) url = awsService.upload(articleRequestDto.getImage());
+        Article article = new Article(articleRequestDto, url);
         articleRepository.save(article);
 
         List<String> items = Arrays.asList(articleRequestDto.getTags().split("\\s*,\\s*"));
@@ -75,12 +79,5 @@ public class ArticleService {
         );
         Comment comment = new Comment(articleCommentRequestDto, article);
         commentRepository.save(comment);
-    }
-
-    @Transactional
-    public void updateArticleImg(String uploadImageUrl, Article article) {
-        Article article1 = articleRepository.findById(article.getIdx()).orElseThrow(
-                () -> new NullPointerException("해당 글이 없습니다."));
-
     }
 }
